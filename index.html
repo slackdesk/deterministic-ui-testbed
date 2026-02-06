@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deterministic UI Testbed</title>
+  <link rel="stylesheet" href="/assets/qa-playground.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header" data-testid="header">
+      <div class="brand">
+        <div style="font-size:20px">🧪</div>
+        <div>
+          <div style="font-weight:700">Deterministic UI Testbed</div>
+          <div class="badge" data-testid="build-badge">static · deterministic · testable</div>
+        </div>
+      </div>
+      <nav class="nav" data-testid="nav">
+        <a data-testid="nav-link" href="/index.html">Home</a>
+        <a data-testid="nav-link" href="/playground.html">Testbed</a>
+      </nav>
+    </header>
+
+    <div style="height:16px"></div>
+
+    <div class="grid cols-2">
+      <section class="card" data-testid="card-overview">
+        <h2>What this is</h2>
+        <p>
+          A controlled, static reference application designed for building and validating
+          <strong>team-adoptable UI test frameworks</strong>. Every interactive element has a
+          <code>data-testid</code>, and each section includes test notes you can assert against.
+        </p>
+        <div class="note" data-testid="note-overview">
+          Hint: Prefer <strong>role/label/testid</strong> selectors. Avoid brittle CSS selectors.
+        </div>
+        <div class="actions">
+          <a class="inline" data-testid="cta-playground" href="/playground.html">Open the Testbed →</a>
+          <span class="inline" data-testid="clock">…</span>
+        </div>
+      </section>
+
+      <section class="card" data-testid="card-counter">
+        <h2>Counter widget</h2>
+        <p>Basic state changes for quick smoke tests.</p>
+        <div class="note" data-testid="note-counter">
+          Hint: Assert the value increments/decrements. No network. No randomness.
+        </div>
+
+        <div class="actions">
+          <button data-testid="counter-dec" aria-label="Decrement">−</button>
+          <span class="inline" data-testid="counter-value" aria-label="Counter value">0</span>
+          <button data-testid="counter-inc" aria-label="Increment">+</button>
+        </div>
+      </section>
+    </div>
+
+    <div style="height:16px"></div>
+
+    <section class="card" data-testid="card-links">
+      <h2>Testing conventions</h2>
+      <ul style="color:var(--muted); line-height:1.7; margin: 8px 0 0; padding-left: 18px;">
+        <li>Prefer <code>getByRole()</code> and <code>getByLabel()</code>, then <code>data-testid</code>.</li>
+        <li>No <code>sleep</code>/<code>waitForTimeout</code>; use conditions.</li>
+        <li>Every action should have at least one meaningful assertion.</li>
+        <li>Capture artifacts (trace/screenshot) on failure.</li>
+      </ul>
+      <div class="note" data-testid="note-conventions">
+        Hint: Treat this list as your “framework contract” and enforce it in reviews.
+      </div>
+    </section>
+
+    <div style="height:16px"></div>
+
+    <footer class="card" data-testid="footer">
+      <p style="margin:0">
+        <span class="inline">Note</span>
+        This site is intentionally static and deterministic to support reliable automation patterns.
+      </p>
+    </footer>
+  </div>
+
+  <script src="/assets/qa-playground.js"></script>
+</body>
+</html>
