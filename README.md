@@ -297,3 +297,180 @@ introduce reusable flows carefully
 keep tests readable and reviewable
 
 prioritize CI stability over feature breadth
+
+OpenClaw deterministic smoke workflow
+
+This repository includes a model-driven, tool-based smoke testing workflow powered by:
+
+OpenClaw (agent runtime)
+
+Ollama (local LLM provider)
+
+Tool-calling for deterministic execution
+
+The goal is repeatable, CI-adoptable UI validation with:
+
+zero randomness
+
+structured outputs
+
+debuggable failures
+
+framework-agnostic orchestration
+
+Why this matters
+
+This approach allows us to:
+
+validate UI behavior using natural-language intent
+
+keep execution deterministic
+
+enforce machine-readable results
+
+run fully offline with local models
+
+prototype team workflows before integrating with real systems
+
+Architecture
+OpenClaw agent
+   ↓
+tool-calling model (Ollama)
+   ↓
+browser automation skill
+   ↓
+deterministic UI testbed
+
+The model does not perform the test.
+
+It:
+
+decides which tool to call
+
+passes structured arguments
+
+returns a machine-readable result
+
+Model requirements
+
+The agent must use a tool-capable model.
+
+Validated working model:
+
+qwen2.5:1.5b-instruct
+
+Other tested models:
+
+Model	Result
+qwen2.5:1.5b-instruct	✅ full tool support
+qwen2.5-coder	⚠️ emits JSON instead of tool call
+llama3	❌ no tool support
+wizard-vicuna-uncensored	❌ no tool support
+dolphin-mixtral	❌ no tool support
+Local setup
+
+Start services:
+
+ollama serve
+openclaw
+
+Set required provider auth (any value works for local Ollama):
+
+export OLLAMA_API_KEY=ollama-local
+Master smoke prompt
+
+This is the single deterministic smoke entry point:
+
+Smoke test https://slackdesk.org/.
+
+Steps:
+1. Open the home page
+2. Verify the page loads without console errors
+3. Capture the document title
+4. Capture the first H1
+5. Verify at least one navigation link exists
+
+Return ONLY:
+
+{
+  "url": "",
+  "loaded": true,
+  "title": "",
+  "h1": "",
+  "nav_links": 0,
+  "console_errors": 0,
+  "status": "pass | fail"
+}
+Deterministic output contract
+
+All smoke runs must return:
+
+valid JSON
+
+no extra text
+
+fixed schema
+
+This allows:
+
+CI parsing
+
+diff-based regression detection
+
+artifact storage
+
+trend reporting
+
+Example use cases
+
+This workflow is used to validate:
+
+agent tool-calling reliability
+
+selector strategy
+
+structured result enforcement
+
+browser skill behavior
+
+model performance on low-resource hardware
+
+Performance profile
+
+Tested environments:
+
+Legacy laptop (CPU-only)
+
+usable for experimentation
+
+slow for browser-driven flows
+
+Desktop (GTX 1070 + 32 GB RAM)
+
+primary development platform
+
+stable for deterministic smoke runs
+
+CI-ready execution pattern
+
+Future CI integration:
+
+openclaw run smoke.md > smoke-result.json
+jq '.status' smoke-result.json
+
+Fail the pipeline if:
+
+status != "pass"
+Next evolution
+
+Planned:
+
+reusable test flow library
+
+multi-page smoke packs
+
+trace artifact enforcement
+
+automatic selector audits
+
+model comparison matrix
