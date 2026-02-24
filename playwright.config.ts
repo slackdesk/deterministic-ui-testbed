@@ -1,20 +1,27 @@
-import { defineConfig, devices } from '@playwright/test';
-
-const baseURL = process.env.BASE_URL || 'http://127.0.0.1:8080';
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests',
-  timeout: 60_000,
-  expect: { timeout: 10_000 },
-  retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : [['list'], ['html']],
   use: {
-    baseURL,
-    trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    headless: true,
   },
   projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } }
-  ]
+    {
+      name: 'chromium-system',
+      use: {
+        browserName: 'chromium',
+        launchOptions: {
+          executablePath: '/usr/bin/chromium', // adjust
+        },
+      },
+    },
+    {
+      name: 'firefox-system',
+      use: {
+        browserName: 'firefox',
+        launchOptions: {
+          executablePath: '/usr/bin/firefox', // adjust
+        },
+      },
+    },
+  ],
 });
