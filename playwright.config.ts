@@ -20,14 +20,5 @@ export default defineConfig({
         },
       },
     },
-    {
-      name: 'firefox-system',
-      use: {
-        browserName: 'firefox',
-        launchOptions: {
-          executablePath: '/usr/bin/firefox', // adjust
-        },
-      },
-    },
   ],
 });
