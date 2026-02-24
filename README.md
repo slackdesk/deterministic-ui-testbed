@@ -1,172 +1,100 @@
 # Deterministic UI Testbed
 
-![CI](https://github.com/slackdesk/deterministic-ui-testbed/actions/workflows/ci.yml/badge.svg)
-![Node](https://img.shields.io/badge/node-%3E%3D18-green)
-![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
+Deterministic, reproducible UI “smoke tests” that combine:
 
-Deterministic, machine-verifiable browser testing powered by:
+- **Playwright** for browser automation
+- **OpenClaw** as an orchestration layer (tool calls, workflows)
+- **Ollama** as the local LLM runtime (tool-capable models)
 
-- 🧭 Playwright (execution)
-- 🧠 OpenClaw (agent orchestration)
-- 🦙 Ollama (local LLM reasoning)
-
-This project proves that UI tests can return **structured JSON contracts instead of flaky text output**.
+> Goal: run the same high-signal UI checks repeatedly and get **consistent JSON outputs** that are easy to diff, log, and automate.
 
 ---
 
-## ✨ Why this exists
+## Badges
 
-Traditional Playwright tests:
-- Assert inside test code
-- Are hard to reuse across agents
-- Produce human-oriented output
+> Replace `OWNER/REPO` with your GitHub org/repo and adjust branch names if needed.
 
-This testbed:
-
-✔ Produces deterministic JSON  
-✔ Is agent-readable  
-✔ Works with local LLMs  
-✔ Enables autonomous UI validation  
+![CI](https://img.shields.io/github/actions/workflow/status/OWNER/REPO/ci.yml?branch=main)
+![License](https://img.shields.io/github/license/OWNER/REPO)
+![Last Commit](https://img.shields.io/github/last-commit/OWNER/REPO)
 
 ---
 
-## 🧱 Architecture
+## Quickstart
 
-User / CI  
-   │  
-   ▼  
-OpenClaw Agent  
-   │  (tool call)  
-   ▼  
-Playwright Smoke Script (Python)  
-   │  
-   ▼  
-Chromium (system)  
-   │  
-   ▼  
-Deterministic JSON  
+### Option A — npm (Node Playwright)
 
-LLM is used for:
-- planning
-- interpreting results
-- chaining actions
+```bash
+npm install
+npx playwright install chromium
+npm test
+```
 
-NOT for browser control.
+### Option B — Python Playwright + system Chromium
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# If your distro is missing Playwright deps, use system Chromium:
+python tools/pw_master_smoke.py https://example.com "$(command -v chromium)"
+```
 
 ---
 
-## 🚀 Quick Start
+## What you get
 
-### 1️⃣ Install system Chromium
+- A **single “master smoke prompt”** workflow that:
+  1. opens a page
+  2. collects key metadata + error signals
+  3. returns a compact, deterministic JSON record
 
-```bash
-which chromium
-```
-
-### 2️⃣ Python environment
-
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install playwright
-playwright install
-```
-
-### 3️⃣ Run the master smoke test
-
-```bash
-python scripts/pw-master-smoke.py https://example.com "$(command -v chromium)"
-```
-
-### ✅ Example output
+Example output:
 
 ```json
 {
-  "url": "https://example.com",
+  "url": "https://slackdesk.org",
   "ok": true,
+  "title": "Deterministic UI Testbed",
+  "h1": "",
   "http_status": 200,
-  "title": "Example Domain",
+  "final_url": "https://slackdesk.org/",
+  "dom_ready_ms": 802,
   "console_errors": 0,
   "page_errors": 0
 }
 ```
 
-This JSON is the **test contract**.
-
 ---
 
-## 🤖 OpenClaw Integration
-
-The agent calls the smoke test as a tool and receives:
-
-- pass/fail signal
-- structured metrics
-- no parsing required
-
----
-
-## 🧪 Deterministic Contract
-
-A test **passes** when:
-
-- HTTP 200
-- No console errors
-- No page errors
-
-Everything else is data — not a crash.
-
----
-
-## 🔬 Why not Playwright alone?
-
-Because Playwright executes  
-but does not:
-
-- Reason
-- Decide
-- Summarize
-- Chain workflows
-
-This project adds that missing layer.
-
----
-
-## 🛣 Roadmap
-
-- [ ] Multi-page flows
-- [ ] Visual diff contract
-- [ ] Performance budgets
-- [ ] CI artifact dashboards
-- [ ] Tool auto-discovery for agents
-
----
-
-## 📂 Project Structure
+## Repo layout
 
 ```
-scripts/
-  pw-master-smoke.py
-
-docs/
-  architecture.md
-
-.github/workflows/
-  ci.yml
+.
+├─ docs/                      # architecture + demo docs
+├─ tools/                     # standalone scripts
+├─ tests/                     # smoke tests / assertions
+├─ .github/workflows/         # CI
+└─ mkdocs.yml                 # docs site config
 ```
 
 ---
 
-## 🧠 Model Compatibility
+## Documentation
 
-Tool-calling verified with:
-
-- ✅ qwen2.5:1.5b-instruct
-- ⚠️ qwen2.5-coder → text tool output
-- ❌ llama3 → no tool support
+- **Architecture:** `docs/architecture.md`
+- **Demo walkthrough:** `docs/demo.md`
+- **Docs site:** `mkdocs.yml` + `docs/index.md`
 
 ---
 
-## 📜 License
+## Contributing
 
-MIT
+See [CONTRIBUTING.md](CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+---
+
+## License
+
+See [LICENSE](LICENSE).

@@ -1,0 +1,18 @@
+site_name: Deterministic UI Testbed
+repo_url: https://github.com/OWNER/REPO
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Demo: demo.md
+  - Interop POC: interop-poc.md
+  - CI: ci.md
