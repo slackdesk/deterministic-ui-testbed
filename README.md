@@ -14,13 +14,13 @@ Deterministic, reproducible UI “smoke tests” that combine:
 
 > Replace `OWNER/REPO` with your GitHub org/repo and adjust branch names if needed.
 
-![CI](https://img.shields.io/github/actions/workflow/status/OWNER/REPO/ci.yml?branch=main)
-![License](https://github.com/slackdesk/deterministic-ui-testbed/blob/main/LICENSE)
-![Last Commit](https://img.shields.io/github/last-commit/OWNER/REPO)
+![CI](https://img.shields.io/github/actions/workflow/status/slackdesk/deterministic-ui-testbed/ci.yml?branch=main)
+![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
+![Last Commit](https://img.shields.io/github/last-commit/slackdesk/deterministic-ui-testbed)
 
 ---
 
-## Quickstart
+## Quickstart  
 
 ### Option A — npm (Node Playwright)
 
