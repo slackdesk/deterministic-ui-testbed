@@ -33,21 +33,19 @@ This testbed:
 
 ## 🧱 Architecture
 
-
-User / CI
-│
-▼
-OpenClaw Agent
-│ (tool call)
-▼
-Playwright Smoke Script (Python)
-│
-▼
-Chromium (system)
-│
-▼
-Deterministic JSON
-
+User / CI  
+   │  
+   ▼  
+OpenClaw Agent  
+   │  (tool call)  
+   ▼  
+Playwright Smoke Script (Python)  
+   │  
+   ▼  
+Chromium (system)  
+   │  
+   ▼  
+Deterministic JSON  
 
 LLM is used for:
 - planning
@@ -58,22 +56,32 @@ NOT for browser control.
 
 ---
 
-## 🚀 Quick Start (60 seconds)
+## 🚀 Quick Start
 
 ### 1️⃣ Install system Chromium
 
-Slackware example:
-
 ```bash
 which chromium
-2️⃣ Python environment
+```
+
+### 2️⃣ Python environment
+
+```bash
 python -m venv venv
 source venv/bin/activate
 pip install playwright
 playwright install
-3️⃣ Run the master smoke test
+```
+
+### 3️⃣ Run the master smoke test
+
+```bash
 python scripts/pw-master-smoke.py https://example.com "$(command -v chromium)"
-✅ Example output
+```
+
+### ✅ Example output
+
+```json
 {
   "url": "https://example.com",
   "ok": true,
@@ -82,61 +90,61 @@ python scripts/pw-master-smoke.py https://example.com "$(command -v chromium)"
   "console_errors": 0,
   "page_errors": 0
 }
+```
 
-This JSON is the test contract.
+This JSON is the **test contract**.
 
-🤖 OpenClaw Integration
+---
+
+## 🤖 OpenClaw Integration
 
 The agent calls the smoke test as a tool and receives:
 
-pass/fail signal
+- pass/fail signal
+- structured metrics
+- no parsing required
 
-structured metrics
+---
 
-no parsing required
+## 🧪 Deterministic Contract
 
-🧪 Deterministic Contract
+A test **passes** when:
 
-A test passes when:
-
-HTTP 200
-
-No console errors
-
-No page errors
+- HTTP 200
+- No console errors
+- No page errors
 
 Everything else is data — not a crash.
 
-🔬 Why not Playwright alone?
+---
 
-Because Playwright:
+## 🔬 Why not Playwright alone?
 
-Executes
-but does not
+Because Playwright executes  
+but does not:
 
-Reason
-
-Decide
-
-Summarize
-
-Chain workflows
+- Reason
+- Decide
+- Summarize
+- Chain workflows
 
 This project adds that missing layer.
 
-🛣 Roadmap
+---
 
- Multi-page flows
+## 🛣 Roadmap
 
- Visual diff contract
+- [ ] Multi-page flows
+- [ ] Visual diff contract
+- [ ] Performance budgets
+- [ ] CI artifact dashboards
+- [ ] Tool auto-discovery for agents
 
- Performance budgets
+---
 
- CI artifact dashboards
+## 📂 Project Structure
 
- Tool auto-discovery for agents
-
-📂 Project Structure
+```
 scripts/
   pw-master-smoke.py
 
@@ -145,76 +153,20 @@ docs/
 
 .github/workflows/
   ci.yml
-🧠 Model Compatibility
+```
+
+---
+
+## 🧠 Model Compatibility
 
 Tool-calling verified with:
 
-✅ qwen2.5:1.5b-instruct
+- ✅ qwen2.5:1.5b-instruct
+- ⚠️ qwen2.5-coder → text tool output
+- ❌ llama3 → no tool support
 
-⚠️ qwen2.5-coder → text tool output
+---
 
-❌ llama3 → no tool support
-
-📜 License
+## 📜 License
 
 MIT
-
-
----
-
-# 📄 2) docs/architecture.md
-
-```markdown
-# Architecture
-
-## Roles
-
-### Playwright
-Executes the browser and produces deterministic JSON.
-
-### OpenClaw
-Agent runtime:
-- decides what to run
-- calls tools
-- consumes structured output
-
-### Ollama
-Local reasoning engine:
-- planning
-- validation
-- orchestration
-
----
-
-## Execution Flow
-
-1. Agent receives goal
-2. Agent calls Playwright smoke tool
-3. Tool returns JSON
-4. Agent decides pass/fail
-
-No HTML parsing by the LLM.
-No screenshots required for correctness.
-
----
-
-## Determinism Layer
-
-The contract converts:
-
-DOM → JSON → Decision
-
-This removes:
-- flaky selectors
-- natural language ambiguity
-- log scraping
-
----
-
-## Why this matters
-
-This enables:
-
-- CI-native agents
-- self-healing tests
-- autonomous QA
