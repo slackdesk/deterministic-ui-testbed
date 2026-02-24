@@ -9,7 +9,8 @@
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:playground": "playwright test tests/playground.spec.ts",
     "pw:install": "playwright install --with-deps",
-    "serve": "python3 -m http.server 8080 --directory site"
+    "serve": "python3 -m http.server 8080 --directory site",
+    "smoke": "./scripts/smoke.sh https://slackdesk.org | python scripts/smoke-check.py"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
