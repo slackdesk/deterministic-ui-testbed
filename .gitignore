@@ -3,3 +3,12 @@
 node_modules/
 playwright-report/
 test-results/
+playwright-artifacts/tests-deterministic-ui-tes-e6bd0-orm-validates-then-succeeds-chromium-system/trace.zip
+playwright-artifacts/tests-playground-Playgroun-027a1-s-opens-and-reveals-content-chromium-system/trace.zip
+playwright-artifacts/tests-playground-Playgroun-4e774-close-confirm-updates-state-chromium-system/trace.zip
+playwright-artifacts/tests-playground-Playgroun-ac1b3-on-shows-error-then-success-chromium-system/trace.zip
+playwright-artifacts/tests-playground-Playgroun-c46ad-a-selected-panel-visibility-chromium-system/trace.zip
+playwright-artifacts/tests-playground-Playgroun-e9532-ng-changes-rows-empty-state-chromium-system/trace.zip
+playwright-artifacts/tests-playground-Playgroun-ee5b5-ad-triggers-a-file-download-chromium-system/trace.zip
+playwright-artifacts/tests-smoke-Smoke-can-navigate-to-playground-chromium-system/trace.zip
+playwright-artifacts/tests-smoke-Smoke-home-loads-and-basic-widgets-exist-chromium-system/trace.zip
