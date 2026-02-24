@@ -12,13 +12,13 @@ Target:
 - BASE URL: {{BASE_URL}}
 
 Tasks:
-1) Open {{BASE_URL}}/ and collect:
+1) Open http://www.slackdesk.org/ and collect:
    - title
    - the first visible H1 text (or "" if none)
    - confirm that a counter widget exists (true/false)
    - confirm that a link to playground exists (true/false)
 
-2) Open {{BASE_URL}}/playground.html and collect:
+2) Open http://www.slackdesk.org/playground.html and collect:
    - title
    - confirm that each of these sections exists (true/false):
      - form validation
