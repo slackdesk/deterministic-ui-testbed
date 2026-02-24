@@ -6,24 +6,24 @@ test.describe('Playground - deterministic interactions', () => {
   });
 
   test('form validation: shows error then success', async ({ page }) => {
-    // These are intentionally generic. Replace with your real testids/labels.
-    const name = page.getByLabel(/name/i).or(page.getByTestId('name'));
+    // Match the playground form: email, topic, message, submit
     const email = page.getByLabel(/email/i).or(page.getByTestId('email'));
+    const topic = page.getByLabel(/topic/i).or(page.getByTestId('topic'));
     const message = page.getByLabel(/message/i).or(page.getByTestId('message'));
     const submit = page.getByRole('button', { name: /submit/i }).or(page.getByTestId('submit'));
 
     await submit.click();
 
-    // Expect *some* visible validation feedback
+    // Expect validation feedback when submitting empty form
     await expect(page.getByText(/required|invalid|missing/i).first()).toBeVisible();
 
-    await name.fill('Harry');
     await email.fill('harry@example.com');
+    await topic.selectOption('feedback');
     await message.fill('This is a deterministic test message long enough to pass.');
 
     await submit.click();
 
-    // Expect *some* success signal
+    // Expect success signal after valid submit
     await expect(page.getByText(/success|submitted|thanks|ok/i).first()).toBeVisible();
   });
 
@@ -51,10 +51,10 @@ test.describe('Playground - deterministic interactions', () => {
     const second = tabs.nth(1);
 
     await first.click();
-    await expect(first).toHaveAttribute(/aria-selected/i, /true/i);
+    await expect(first).toHaveAttribute('aria-selected', /true/i);
 
     await second.click();
-    await expect(second).toHaveAttribute(/aria-selected/i, /true/i);
+    await expect(second).toHaveAttribute('aria-selected', /true/i);
   });
 
   test('accordion: details opens and reveals content', async ({ page }) => {

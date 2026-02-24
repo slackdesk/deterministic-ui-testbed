@@ -21,8 +21,8 @@ test.describe('Smoke', () => {
   test('can navigate to playground', async ({ page }) => {
     await page.goto('/');
 
-    // If you have a nav link called "Playground"
-    const link = page.getByRole('link', { name: /playground/i });
+    // Prefer testid or visible link text that the site provides
+    const link = page.getByRole('link', { name: /playground/i }).or(page.getByTestId('cta-playground'));
     await expect(link).toBeVisible();
     await link.click();
 
