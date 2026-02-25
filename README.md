@@ -43,16 +43,16 @@ python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
 
 ## The Deterministic UI Test Workflow
 
-OpenClaw chat
- ↓
+OpenClaw chat 
+↓
 Ollama (intent → tool plan)
- ↓
+↓
 generate_playwright_test tool
- ↓
+↓
 run_playwright_test tool
- ↓
+↓
 smoke-check.py (deterministic gate)
- ↓
+↓
 LLM summary
 
 ## What you get
