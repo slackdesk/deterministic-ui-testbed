@@ -40,9 +40,9 @@ python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
 
 ```
 
----
-## The Deterministic UI Test Workflow 
 
+## The Deterministic UI Test Workflow 
+```bash
 - OpenClaw chat
  ↓
 - Ollama (intent → tool plan)
@@ -54,10 +54,8 @@ python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
 - smoke-check.py (deterministic gate)
  ↓
 - LLM summary
-
 ```
 
----
 ## What you get
 
 - A **single “master smoke prompt”** workflow that:
@@ -81,8 +79,6 @@ Example output:
 }
 ```
 
----
-
 ## Repo layout
 
 ```
@@ -93,8 +89,6 @@ Example output:
 ├─ .github/workflows/         # CI
 └─ mkdocs.yml                 # docs site config
 ```
-
----
 
 ## Documentation
 
