@@ -12,8 +12,6 @@ Deterministic, reproducible UI “smoke tests” that combine:
 
 ## Badges
 
-> Replace `OWNER/REPO` with your GitHub org/repo and adjust branch names if needed.
-
 ![CI](https://img.shields.io/github/actions/workflow/status/slackdesk/deterministic-ui-testbed/ci.yml?branch=main)
 ![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
 ![Last Commit](https://img.shields.io/github/last-commit/slackdesk/deterministic-ui-testbed)
