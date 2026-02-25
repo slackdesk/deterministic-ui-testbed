@@ -12,3 +12,6 @@ playwright-artifacts/tests-playground-Playgroun-e9532-ng-changes-rows-empty-stat
 playwright-artifacts/tests-playground-Playgroun-ee5b5-ad-triggers-a-file-download-chromium-system/trace.zip
 playwright-artifacts/tests-smoke-Smoke-can-navigate-to-playground-chromium-system/trace.zip
 playwright-artifacts/tests-smoke-Smoke-home-loads-and-basic-widgets-exist-chromium-system/trace.zip
+
+# Local Playwright artifacts
+playwright-artifacts/
