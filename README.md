@@ -43,7 +43,7 @@ python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
 
 ## The Deterministic UI Test Workflow
 
-OpenClaw chat 
+OpenClaw chat
 ↓
 Ollama (intent → tool plan)
 ↓
