@@ -83,11 +83,12 @@ Example output:
 
 ```
 .
-├─ docs/                      # architecture + demo docs
-├─ tools/                     # standalone scripts
-├─ tests/                     # smoke tests / assertions
-├─ .github/workflows/         # CI
-└─ mkdocs.yml                 # docs site config
+├─ docs/                      → architecture + demo docs
+├─ agents/                    → AI control plane
+├─ scripts/                   → runtime glue
+├─ tests/                     → deterministic execution
+├─ .github/workflows/         → CI
+└─ mkdocs.yml                 → docs site config
 ```
 
 ## Documentation
