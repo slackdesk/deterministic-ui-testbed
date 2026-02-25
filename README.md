@@ -37,6 +37,24 @@ pip install -r requirements.txt
 
 # If your distro is missing Playwright deps, use system Chromium:
 python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
+
+```
+
+---
+## The Deterministic UI Test Workflow 
+
+- OpenClaw chat
+ ↓
+- Ollama (intent → tool plan)
+ ↓
+- generate_playwright_test tool
+ ↓
+- run_playwright_test tool
+ ↓
+- smoke-check.py (deterministic gate)
+ ↓
+- LLM summary
+
 ```
 
 ---
