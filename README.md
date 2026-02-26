@@ -13,6 +13,11 @@ Deterministic, reproducible UI “smoke tests” that combine:
 ## Badges
 
 ![CI](https://img.shields.io/github/actions/workflow/status/slackdesk/deterministic-ui-testbed/ci.yml?branch=main)
+![Deterministic](https://img.shields.io/badge/tests-deterministic-brightgreen)
+![Playwright](https://img.shields.io/badge/browser-playwright-blue)
+![OpenClaw](https://img.shields.io/badge/orchestration-openclaw-purple)
+![CI Safe](https://img.shields.io/badge/CI-flake--free-success)
+![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
 ![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
 ![Last Commit](https://img.shields.io/github/last-commit/slackdesk/deterministic-ui-testbed)
 
