@@ -40,6 +40,12 @@ python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
 
 ```
 
+## AI Agents
+
+AI is used for test authoring and analysis through deterministic, version-controlled agents.
+
+See `/agents` for reproducible workflows and output contracts.
+
 
 ## The Deterministic UI Test Workflow 
 ```bash
