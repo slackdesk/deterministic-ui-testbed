@@ -18,7 +18,6 @@ Deterministic, reproducible UI “smoke tests” that combine:
 ![OpenClaw](https://img.shields.io/badge/orchestration-openclaw-purple)
 ![CI Safe](https://img.shields.io/badge/CI-flake--free-success)
 ![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
-![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
 ![Last Commit](https://img.shields.io/github/last-commit/slackdesk/deterministic-ui-testbed)
 
 ---
