@@ -1,0 +1,6 @@
+services:
+  smoke:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: bash -lc "npm run smoke"

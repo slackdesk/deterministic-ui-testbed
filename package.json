@@ -10,10 +10,12 @@
     "test:playground": "playwright test tests/playground.spec.ts",
     "pw:install": "playwright install --with-deps",
     "serve": "python3 -m http.server 8080 --directory site",
-    "smoke": "./scripts/smoke.sh https://slackdesk.org | python scripts/smoke-check.py"
+    "smoke": "./scripts/smoke.sh https://slackdesk.org | python scripts/smoke-check.py",
+    "demo:record": "node --version && playwright --version && npx tsx scripts/demo-runner.ts https://slackdesk.org videos"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
-    "@types/node": "^25.3.0"
+    "@types/node": "^25.3.0",
+    "playwright": "^1.58.2"
   }
 }

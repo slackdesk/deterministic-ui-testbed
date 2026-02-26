@@ -28,9 +28,11 @@ coverage/
 .env
 .cache/
 .idea/
+videos/*.webm
 
 # Lockfiles and logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+

@@ -4,12 +4,12 @@
 
 ### Python (recommended on distros missing Playwright deps)
 ```bash
-python tools/pw_master_smoke.py https://slackdesk.org "$(command -v chromium)"
+python scripts/pw_master_smoke.py https://slackdesk.org "$(command -v chromium)"
 ```
 
 ### Node
 ```bash
-node tools/pw_master_smoke.mjs https://slackdesk.org
+node scripts/pw_master_smoke.mjs https://slackdesk.org
 ```
 
 ## 2) Run the same through OpenClaw

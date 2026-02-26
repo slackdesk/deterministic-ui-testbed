@@ -1,30 +1,91 @@
 # Deterministic UI Testbed
 
-Deterministic, reproducible UI “smoke tests” that combine:
+**Flake-free, CI-safe browser smoke tests powered by Playwright + local AI.**
 
-- **Playwright** for browser automation
-- **OpenClaw** as an orchestration layer (tool calls, workflows)
-- **Ollama** as the local LLM runtime (tool-capable models)
+This project demonstrates how to turn UI automation into a **deterministic, reproducible system** that:
 
-> Goal: run the same high-signal UI checks repeatedly and get **consistent JSON outputs** that are easy to diff, log, and automate.
-
----
-
-## Badges
-
-![CI](https://img.shields.io/github/actions/workflow/status/slackdesk/deterministic-ui-testbed/ci.yml?branch=main)
-![Deterministic](https://img.shields.io/badge/tests-deterministic-brightgreen)
-![Playwright](https://img.shields.io/badge/browser-playwright-blue)
-![OpenClaw](https://img.shields.io/badge/orchestration-openclaw-purple)
-![CI Safe](https://img.shields.io/badge/CI-flake--free-success)
-![License](https://img.shields.io/github/license/slackdesk/deterministic-ui-testbed)
-![Last Commit](https://img.shields.io/github/last-commit/slackdesk/deterministic-ui-testbed)
+- produces **consistent JSON test outputs**
+- survives **UI and environment drift**
+- enables **AI-assisted test authoring without breaking CI**
 
 ---
 
-## Quickstart  
+## Why this matters
 
-### Option A — npm (Node Playwright)
+Traditional UI pipelines fail because they are:
+
+- ❌ timing-sensitive  
+- ❌ selector-fragile  
+- ❌ hard to debug in CI  
+
+This testbed shows a different model:
+
+✅ Deterministic execution  
+✅ Stable, diffable results  
+✅ High-signal failure diagnostics  
+✅ AI that accelerates authoring — not runtime risk  
+
+---
+
+## What this project demonstrates
+
+- **Playwright** for reliable browser automation  
+- **OpenClaw** as a tool-orchestrated workflow engine  
+- **Ollama** for local, tool-calling LLMs  
+- **CI-safe smoke testing** with a deterministic gate  
+
+Result: the same test → the same structured output → every run.
+
+---
+
+## Example output
+
+```json
+{
+  "url": "https://slackdesk.org",
+  "ok": true,
+  "http_status": 200,
+  "dom_ready_ms": 802,
+  "console_errors": 0,
+  "page_errors": 0
+}
+```
+
+This makes UI tests:
+
+- loggable  
+- alertable  
+- trendable  
+- automation-friendly  
+
+---
+
+## Key capabilities
+
+- Deterministic UI smoke testing
+- AI-generated Playwright tests (tool-driven, not free-form)
+- Reproducible local + CI execution
+- System Chromium fallback for unsupported distros
+- JSON contracts for automation pipelines
+
+---
+
+## Architecture (high level)
+
+```
+OpenClaw
+  → Ollama (intent → tool plan)
+      → Playwright test generation
+          → Playwright execution
+              → Deterministic smoke gate
+                  → Structured result
+```
+
+---
+
+## Quickstart
+
+### Node
 
 ```bash
 npm install
@@ -32,89 +93,39 @@ npx playwright install chromium
 npm test
 ```
 
-### Option B — Python Playwright + system Chromium
+### Python + system Chromium
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# If your distro is missing Playwright deps, use system Chromium:
 python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
-
 ```
-
-## AI Agents
-
-AI is used for test authoring and analysis through deterministic, version-controlled agents.
-
-See `/agents` for reproducible workflows and output contracts.
-
-
-## The Deterministic UI Test Workflow 
-```bash
-- OpenClaw chat
- ↓
-- Ollama (intent → tool plan)
- ↓
-- generate_playwright_test tool
- ↓
-- run_playwright_test tool
- ↓
-- smoke-check.py (deterministic gate)
- ↓
-- LLM summary
-```
-
-## What you get
-
-- A **single “master smoke prompt”** workflow that:
-  1. opens a page
-  2. collects key metadata + error signals
-  3. returns a compact, deterministic JSON record
-
-Example output:
-
-```json
-{
-  "url": "https://slackdesk.org",
-  "ok": true,
-  "title": "Deterministic UI Testbed",
-  "h1": "",
-  "http_status": 200,
-  "final_url": "https://slackdesk.org/",
-  "dom_ready_ms": 802,
-  "console_errors": 0,
-  "page_errors": 0
-}
-```
-
-## Repo layout
-
-```
-.
-├─ docs/                      → architecture + demo docs
-├─ agents/                    → AI control plane
-├─ scripts/                   → runtime glue
-├─ tests/                     → deterministic execution
-├─ .github/workflows/         → CI
-└─ mkdocs.yml                 → docs site config
-```
-
-## Documentation
-
-- **Architecture:** `docs/architecture.md`
-- **Demo walkthrough:** `docs/demo.md`
-- **Docs site:** `mkdocs.yml` + `docs/index.md`
 
 ---
 
-## Contributing
+## Repository layout
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+```
+agents/     → AI workflows (version-controlled)
+scripts/    → runtime glue
+tests/      → deterministic execution
+docs/       → architecture + demo
+.github/    → CI pipeline
+```
 
 ---
 
-## License
+## Use cases
 
-See [LICENSE](LICENSE).
+- CI smoke tests for production deploys
+- Flake-free health checks for critical user journeys
+- AI-assisted test authoring for QA teams
+- Deterministic UI monitoring
+
+---
+
+## Status
+
+Actively evolving as a **reference architecture for reliable UI automation**.
