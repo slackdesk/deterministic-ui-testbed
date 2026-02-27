@@ -21,7 +21,7 @@ You are running inside the `deterministic-ui-testbed` repository.
 2) If it fails, still return the JSON emitted by the pipeline (do not add prose).
 3) Do not include any markdown, commentary, or extra keys.
 
-**URL:** <PASTE_URL_HERE>
+**URL:** <https://slackdesk.org/>
 
 ## Prompt (Browser-only fallback)
 If terminal execution is not available:

@@ -38,4 +38,4 @@ Rules:
 - Return JSON only (no markdown).
 - Keep next_steps actionable (commands, file paths, config toggles).
 
-**URL:** <PASTE_URL_HERE>
+**URL:** https://slackdesk.org/
