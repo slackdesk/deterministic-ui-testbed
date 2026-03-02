@@ -20,7 +20,7 @@ No markdown. No prose. No extra keys.
 You are in the deterministic-ui-testbed repo.
 
 1) Run:
-- `./scripts/smoke.sh <URL> | python scripts/smoke-check.py`
+- `./scripts/smoke.sh https://slackdesk.org/index.html | python scripts/smoke-check.py`
 
 2) If it fails, still output the JSON emitted by the pipeline (no commentary).
 

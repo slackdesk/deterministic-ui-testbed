@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+bash scripts/bootstrap-workspace.sh
 set -e
 
 echo "🔍 Checking environment"

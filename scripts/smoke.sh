@@ -2,6 +2,7 @@
 set -euo pipefail
 
 URL="${1:-https://example.com}"
+echo "DEBUG URL=$URL" >&2
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"

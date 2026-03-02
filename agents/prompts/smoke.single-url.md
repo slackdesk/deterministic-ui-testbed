@@ -3,7 +3,7 @@
 **Goal:** Run your existing smoke workflow for one URL and return a single JSON object **only**.
 
 ## Input
-- `URL`: the target to smoke test
+- `URL`: https://slackdesk.org/index.html
 
 ## Output (STRICT)
 Return **ONLY** one JSON object with keys:
@@ -21,7 +21,7 @@ You are running inside the `deterministic-ui-testbed` repository.
 2) If it fails, still return the JSON emitted by the pipeline (do not add prose).
 3) Do not include any markdown, commentary, or extra keys.
 
-**URL:** <https://slackdesk.org/>
+**URL:** `<URL>`
 
 ## Prompt (Browser-only fallback)
 If terminal execution is not available:
