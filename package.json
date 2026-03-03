@@ -4,16 +4,16 @@
   "version": "0.1.0",
   "description": "Deterministic UI Testbed - automation playground",
   "scripts": {
-    "test": "playwright test",
-    "test:ui": "playwright test --ui",
-    "test:smoke": "playwright test tests/smoke.spec.ts",
-    "test:playground": "playwright test tests/playground.spec.ts",
-    "pw:install": "playwright install --with-deps",
-    "serve": "python3 -m http.server 8080 --directory site",
-    "demo:record": "node --version && playwright --version && npx tsx scripts/demo-runner.ts https://slackdesk.org videos",
-    "doctor": "bash scripts/doctor.sh",
-    "smoke": "bash scripts/smoke.sh"
-  },
+  "test": "playwright test",
+  "test:ui": "playwright test --ui",
+  "test:smoke": "playwright test tests/smoke.spec.ts",
+  "test:playground": "playwright test tests/playground.spec.ts",
+  "pw:install": "playwright install --with-deps",
+  "serve": "python3 -m http.server 8080 --directory site",
+  "demo:record": "node --version && playwright --version && npx tsx scripts/demo-runner.ts https://slackdesk.org videos",
+  "doctor": "bash scripts/doctor.sh",
+  "smoke": "npm run test:smoke"
+},
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.3.0",
