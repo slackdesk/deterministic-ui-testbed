@@ -4,20 +4,1060 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SlackDesk | Open-Source AI Tools for Productivity</title>
-  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --border: #334155;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #020617, #0f172a 35%, #111827);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(2, 6, 23, 0.82);
+      border-bottom: 1px solid rgba(148,163,184,.15);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #818cf8);
+      color: #08111f;
+      border-radius: 12px;
+      font-weight: 900;
+    }
+
+    .nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav a, .nav button {
+      color: var(--text);
+      background: transparent;
+      border: 1px solid transparent;
+      padding: .65rem .9rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .nav a:hover, .nav button:hover {
+      background: rgba(148,163,184,.08);
+      border-color: rgba(148,163,184,.12);
+    }
+
+    .hero {
+      padding: 3.5rem 0 2rem;
+      display: grid;
+      grid-template-columns: 1.35fr .95fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .hero-card, .panel {
+      background: linear-gradient(180deg, rgba(17,24,39,.98), rgba(17,24,39,.86));
+      border: 1px solid rgba(148,163,184,.12);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(56,189,248,.1);
+      color: #7dd3fc;
+      border: 1px solid rgba(56,189,248,.2);
+      padding: .4rem .75rem;
+      border-radius: 999px;
+      font-size: .9rem;
+      margin-bottom: 1rem;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 .75rem;
+      line-height: 1.1;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.3rem);
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 65ch;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: .8rem 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .15s ease, background .15s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      color: #08111f;
+      border: none;
+      font-weight: 700;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--accent-2), #10b981);
+      color: #052e16;
+      border: none;
+      font-weight: 700;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+
+    .stat {
+      background: rgba(148,163,184,.07);
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 12px;
+      padding: .9rem;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: .2rem;
+    }
+
+    .demo-stack {
+      display: grid;
+      gap: .85rem;
+    }
+
+    .chip-row {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: rgba(148,163,184,.08);
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 999px;
+      padding: .45rem .7rem;
+      font-size: .9rem;
+      color: #cbd5e1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-6 { grid-column: span 6; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .panel h2 {
+      margin-bottom: .75rem;
+      font-size: 1.35rem;
+    }
+
+    .muted { color: var(--muted); }
+
+    .toolbar {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .4rem;
+      margin-bottom: .9rem;
+    }
+
+    .field label {
+      font-size: .92rem;
+      color: #cbd5e1;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: #0b1220;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem .85rem;
+    }
+
+    .field small {
+      color: var(--muted);
+    }
+
+    .validation {
+      min-height: 1.2rem;
+      font-size: .92rem;
+      color: #fca5a5;
+    }
+
+    .toggle-row,
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin: .75rem 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .3rem .55rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(148,163,184,.08);
+    }
+
+    .badge.ok {
+      color: #86efac;
+      border-color: rgba(34,197,94,.35);
+      background: rgba(34,197,94,.08);
+    }
+
+    .badge.warn {
+      color: #fcd34d;
+      border-color: rgba(245,158,11,.35);
+      background: rgba(245,158,11,.08);
+    }
+
+    .tabs {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .tab-btn {
+      padding: .65rem .85rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0b1220;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .tab-btn[aria-selected="true"] {
+      background: rgba(56,189,248,.14);
+      border-color: rgba(56,189,248,.35);
+    }
+
+    .tab-panel[hidden] { display: none; }
+
+    .accordion-item {
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: .75rem;
+      background: rgba(2,6,23,.25);
+    }
+
+    .accordion-header {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .accordion-body {
+      padding: 0 1rem 1rem;
+      color: #cbd5e1;
+    }
+
+    .accordion-body[hidden] { display: none; }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 540px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: .85rem;
+      border-bottom: 1px solid rgba(148,163,184,.12);
+    }
+
+    th {
+      color: #cbd5e1;
+      background: rgba(148,163,184,.06);
+    }
+
+    tr:hover td {
+      background: rgba(148,163,184,.04);
+    }
+
+    .progress {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #0b1220;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 42%;
+      background: linear-gradient(90deg, var(--accent), #818cf8);
+      transition: width .2s ease;
+    }
+
+    .range-row {
+      display: grid;
+      gap: .75rem;
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      font-size: .95rem;
+      color: #cbd5e1;
+    }
+
+    .drawer,
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+    }
+
+    .modal-backdrop {
+      background: rgba(2,6,23,.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(560px, 100%);
+      background: #0f172a;
+      border: 1px solid rgba(148,163,184,.15);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+    }
+
+    .drawer {
+      display: none;
+      justify-content: flex-end;
+      background: rgba(2,6,23,.5);
+    }
+
+    .drawer.open {
+      display: flex;
+    }
+
+    .drawer-panel {
+      width: min(420px, 100%);
+      height: 100%;
+      background: #0f172a;
+      border-left: 1px solid rgba(148,163,184,.15);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      display: grid;
+      gap: .75rem;
+      z-index: 60;
+    }
+
+    .toast {
+      min-width: 280px;
+      max-width: 360px;
+      padding: .9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.12);
+      background: #111827;
+      box-shadow: var(--shadow);
+    }
+
+    .toast.success { border-color: rgba(34,197,94,.35); }
+    .toast.warn { border-color: rgba(245,158,11,.35); }
+    .toast.error { border-color: rgba(239,68,68,.35); }
+
+    .footer {
+      padding: 2rem 0 3rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .75rem;
+    }
+
+    .kpi {
+      background: rgba(148,163,184,.06);
+      border: 1px solid rgba(148,163,184,.12);
+      padding: .9rem;
+      border-radius: 12px;
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: .25rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; }
+      .span-4, .span-6, .span-8 { grid-column: span 12; }
+      .hero-stats, .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .hero-stats, .kpi-grid { grid-template-columns: 1fr; }
+      .topbar-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="./index.html">Home</a>
-      <a href="./playground.html">Playground</a>
-    </nav>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand" data-testid="brand">
+        <div class="brand-badge">SD</div>
+        <span>SlackDesk</span>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#features" data-testid="nav-features">Features</a>
+        <a href="#workbench" data-testid="nav-workbench">Workbench</a>
+        <a href="./playground.html" data-testid="nav-playground">Playground</a>
+        <button type="button" id="openDrawerBtn" data-testid="open-drawer-btn">Quick Panel</button>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <h1>Welcome to SlackDesk - Open-Source AI Tools for Productivity 🚀</h1>
-    <p>A deterministic fixture page for Playwright smoke testing.</p>
-    <a href="./playground.html" role="link">Go to Playground</a>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow" data-testid="hero-eyebrow">AI-assisted QA • Deterministic UI Signals</div>
+        <h1 data-testid="hero-heading">Welcome to SlackDesk - Open-Source AI Tools for Productivity 🚀</h1>
+        <p class="lead" data-testid="hero-lead">
+          A realistic local fixture site for Playwright demos, smoke testing, prompt-driven QA experiments,
+          and recruiter-friendly browser automation walkthroughs.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" id="launchDemoBtn" data-testid="launch-demo-btn">Launch Demo</button>
+          <button class="btn" id="openModalBtn" data-testid="open-modal-btn">Open Modal</button>
+          <button class="btn btn-success" id="showToastBtn" data-testid="show-toast-btn">Show Success Toast</button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat" data-testid="stat-tests">
+            <strong id="statTests">24</strong>
+            <span class="muted">Deterministic checks</span>
+          </div>
+          <div class="stat" data-testid="stat-runs">
+            <strong id="statRuns">812</strong>
+            <span class="muted">Recent smoke runs</span>
+          </div>
+          <div class="stat" data-testid="stat-reliability">
+            <strong id="statReliability">99.2%</strong>
+            <span class="muted">Signal reliability</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <h2>Testable Highlights</h2>
+        <div class="demo-stack">
+          <div class="chip-row">
+            <span class="chip">forms</span>
+            <span class="chip">validation</span>
+            <span class="chip">tabs</span>
+            <span class="chip">accordions</span>
+            <span class="chip">drawer</span>
+            <span class="chip">modal</span>
+            <span class="chip">toasts</span>
+            <span class="chip">table filters</span>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi" data-testid="kpi-coverage">
+              <strong>94%</strong>
+              <span class="muted">Coverage</span>
+            </div>
+            <div class="kpi" data-testid="kpi-speed">
+              <strong>350ms</strong>
+              <span class="muted">DOM ready</span>
+            </div>
+            <div class="kpi" data-testid="kpi-errors">
+              <strong>0</strong>
+              <span class="muted">Page errors</span>
+            </div>
+            <div class="kpi" data-testid="kpi-status">
+              <strong>200</strong>
+              <span class="muted">HTTP status</span>
+            </div>
+          </div>
+
+          <p class="muted">
+            Every major interactive element has an explicit label, role, or <code>data-testid</code> for stable Playwright selectors.
+          </p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid" id="features">
+      <section class="panel span-8" id="workbench">
+        <h2>Interactive Workbench</h2>
+        <p class="muted">A collection of realistic UI controls for navigation, validation, filtering, and state assertions.</p>
+
+        <div class="tabs" role="tablist" aria-label="Workbench tabs">
+          <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-overview" id="tab-overview-btn" data-testid="tab-overview-btn">Overview</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-form" id="tab-form-btn" data-testid="tab-form-btn">Contact Form</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-data" id="tab-data-btn" data-testid="tab-data-btn">Data Table</button>
+        </div>
+
+        <section class="tab-panel" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-btn" data-testid="tab-overview-panel">
+          <div class="toolbar">
+            <button class="btn" id="incrementBtn" data-testid="increment-btn">Increment Counter</button>
+            <button class="btn" id="decrementBtn" data-testid="decrement-btn">Decrement Counter</button>
+            <span class="badge ok" id="counterBadge" data-testid="counter-badge">Counter: <span id="counterValue">0</span></span>
+          </div>
+
+          <div class="range-row">
+            <div class="metric">
+              <span>Demo Progress</span>
+              <strong id="progressLabel" data-testid="progress-label">42%</strong>
+            </div>
+            <div class="progress" aria-label="Demo progress">
+              <div class="progress-bar" id="progressBar" data-testid="progress-bar"></div>
+            </div>
+            <input type="range" min="0" max="100" value="42" id="progressRange" data-testid="progress-range" />
+          </div>
+
+          <div style="margin-top: 1rem;">
+            <div class="toggle-row">
+              <input type="checkbox" id="featureToggle" data-testid="feature-toggle" checked />
+              <label for="featureToggle">Enable AI suggestion panel</label>
+              <span class="badge ok" id="featureStatus" data-testid="feature-status">Enabled</span>
+            </div>
+
+            <div class="check-row">
+              <input type="checkbox" id="betaAccess" data-testid="beta-access-checkbox" />
+              <label for="betaAccess">Request beta feature access</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="tab-form" role="tabpanel" aria-labelledby="tab-form-btn" hidden data-testid="tab-form-panel">
+          <form id="contactForm" novalidate data-testid="contact-form">
+            <div class="field">
+              <label for="fullName">Full name</label>
+              <input id="fullName" name="fullName" type="text" placeholder="Jane Doe" data-testid="input-full-name" />
+              <small>Used for personalized follow-up.</small>
+            </div>
+
+            <div class="field">
+              <label for="email">Work email</label>
+              <input id="email" name="email" type="email" placeholder="jane@example.com" data-testid="input-email" />
+            </div>
+
+            <div class="field">
+              <label for="teamSize">Team size</label>
+              <select id="teamSize" name="teamSize" data-testid="select-team-size">
+                <option value="">Choose one</option>
+                <option value="1-5">1–5</option>
+                <option value="6-20">6–20</option>
+                <option value="21-50">21–50</option>
+                <option value="50+">50+</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="message">What are you trying to automate?</label>
+              <textarea id="message" name="message" rows="4" placeholder="Describe your UI testing use case..." data-testid="input-message"></textarea>
+            </div>
+
+            <div class="validation" id="formValidation" data-testid="form-validation"></div>
+
+            <div class="toolbar">
+              <button class="btn btn-primary" type="submit" data-testid="submit-contact-form">Submit</button>
+              <button class="btn" type="reset" data-testid="reset-contact-form">Reset</button>
+            </div>
+
+            <p class="badge warn" id="formResult" data-testid="form-result">No submission yet</p>
+          </form>
+        </section>
+
+        <section class="tab-panel" id="tab-data" role="tabpanel" aria-labelledby="tab-data-btn" hidden data-testid="tab-data-panel">
+          <div class="toolbar">
+            <input
+              type="text"
+              id="tableFilter"
+              placeholder="Filter by project or status"
+              data-testid="table-filter"
+              style="max-width: 320px;"
+            />
+            <select id="statusFilter" data-testid="status-filter">
+              <option value="all">All statuses</option>
+              <option value="healthy">Healthy</option>
+              <option value="warning">Warning</option>
+              <option value="review">Review</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table aria-label="Project status table" data-testid="project-status-table">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>Owner</th>
+                  <th>Status</th>
+                  <th>Last Run</th>
+                </tr>
+              </thead>
+              <tbody id="projectTableBody">
+                <tr data-status="healthy">
+                  <td>Homepage Smoke</td>
+                  <td>QA Platform</td>
+                  <td>Healthy</td>
+                  <td>2 min ago</td>
+                </tr>
+                <tr data-status="warning">
+                  <td>Checkout Flow</td>
+                  <td>Growth Team</td>
+                  <td>Warning</td>
+                  <td>9 min ago</td>
+                </tr>
+                <tr data-status="review">
+                  <td>Prompt Generator</td>
+                  <td>AI Automation</td>
+                  <td>Review</td>
+                  <td>17 min ago</td>
+                </tr>
+                <tr data-status="healthy">
+                  <td>Navigation Suite</td>
+                  <td>Frontend QA</td>
+                  <td>Healthy</td>
+                  <td>22 min ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <aside class="panel span-4">
+        <h2>FAQ Accordion</h2>
+
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="true" aria-controls="acc-1" data-testid="accordion-1-btn">
+            Why deterministic fixtures?
+          </button>
+          <div class="accordion-body" id="acc-1" data-testid="accordion-1-body">
+            Local fixtures eliminate network drift and make browser tests stable, fast, and reproducible.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false" aria-controls="acc-2" data-testid="accordion-2-btn">
+            What can Playwright validate here?
+          </button>
+          <div class="accordion-body" id="acc-2" hidden data-testid="accordion-2-body">
+            Headings, navigation, forms, modals, drawers, toasts, progress state, table filters, and more.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false" aria-controls="acc-3" data-testid="accordion-3-btn">
+            Is this recruiter-demo friendly?
+          </button>
+          <div class="accordion-body" id="acc-3" hidden data-testid="accordion-3-body">
+            Yes — it gives you a realistic UI surface with obvious interactions and reliable assertions.
+          </div>
+        </div>
+      </aside>
+
+      <section class="panel span-6">
+        <h2>Release Console</h2>
+        <p class="muted">Simulated deployment controls for modal, toast, and async state testing.</p>
+
+        <div class="toolbar">
+          <button class="btn" id="simulateLoadBtn" data-testid="simulate-load-btn">Simulate Async Load</button>
+          <button class="btn" id="simulateWarnBtn" data-testid="simulate-warn-btn">Show Warning Toast</button>
+          <button class="btn" id="simulateErrorBtn" data-testid="simulate-error-btn">Show Error Toast</button>
+        </div>
+
+        <div class="badge" id="asyncStatus" data-testid="async-status">Idle</div>
+      </section>
+
+      <section class="panel span-6">
+        <h2>Newsletter Signup</h2>
+        <div class="field">
+          <label for="newsletterEmail">Email address</label>
+          <input id="newsletterEmail" type="email" placeholder="you@company.com" data-testid="newsletter-email" />
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-primary" id="newsletterSubmit" data-testid="newsletter-submit">Join Newsletter</button>
+        </div>
+        <div class="validation" id="newsletterValidation" data-testid="newsletter-validation"></div>
+      </section>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="container">
+      SlackDesk fixture site • Built for deterministic Playwright demos and prompt-driven QA workflows
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="modalBackdrop" data-testid="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" data-testid="demo-modal">
+      <h2 id="modalTitle">Demo Modal</h2>
+      <p class="muted">This modal is intentionally simple and fully testable.</p>
+      <div class="toolbar">
+        <button class="btn btn-primary" id="confirmModalBtn" data-testid="confirm-modal-btn">Confirm</button>
+        <button class="btn" id="closeModalBtn" data-testid="close-modal-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer" id="drawer" data-testid="drawer">
+    <div class="drawer-panel">
+      <h2>Quick Panel</h2>
+      <p class="muted">Use this panel to test open/close behavior and element visibility assertions.</p>
+      <div class="toolbar">
+        <button class="btn" id="closeDrawerBtn" data-testid="close-drawer-btn">Close Panel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" data-testid="toast-stack"></div>
+
+  <script>
+    const byId = (id) => document.getElementById(id);
+
+    // Tabs
+    const tabs = [
+      { btn: byId('tab-overview-btn'), panel: byId('tab-overview') },
+      { btn: byId('tab-form-btn'), panel: byId('tab-form') },
+      { btn: byId('tab-data-btn'), panel: byId('tab-data') }
+    ];
+
+    function activateTab(targetBtnId) {
+      tabs.forEach(({ btn, panel }) => {
+        const active = btn.id === targetBtnId;
+        btn.setAttribute('aria-selected', String(active));
+        panel.hidden = !active;
+      });
+    }
+
+    tabs.forEach(({ btn }) => {
+      btn.addEventListener('click', () => activateTab(btn.id));
+    });
+
+    // Counter
+    const counterValue = byId('counterValue');
+    let counter = 0;
+    byId('incrementBtn').addEventListener('click', () => {
+      counter += 1;
+      counterValue.textContent = String(counter);
+    });
+    byId('decrementBtn').addEventListener('click', () => {
+      counter -= 1;
+      counterValue.textContent = String(counter);
+    });
+
+    // Progress
+    const progressRange = byId('progressRange');
+    const progressLabel = byId('progressLabel');
+    const progressBar = byId('progressBar');
+
+    function updateProgress(value) {
+      progressLabel.textContent = `${value}%`;
+      progressBar.style.width = `${value}%`;
+    }
+
+    progressRange.addEventListener('input', (e) => {
+      updateProgress(e.target.value);
+    });
+
+    // Toggle
+    const featureToggle = byId('featureToggle');
+    const featureStatus = byId('featureStatus');
+
+    featureToggle.addEventListener('change', () => {
+      if (featureToggle.checked) {
+        featureStatus.textContent = 'Enabled';
+        featureStatus.className = 'badge ok';
+      } else {
+        featureStatus.textContent = 'Disabled';
+        featureStatus.className = 'badge warn';
+      }
+    });
+
+    // Accordion
+    document.querySelectorAll('.accordion-header').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const body = byId(btn.getAttribute('aria-controls'));
+        btn.setAttribute('aria-expanded', String(!expanded));
+        body.hidden = expanded;
+      });
+    });
+
+    // Contact form
+    const contactForm = byId('contactForm');
+    const formValidation = byId('formValidation');
+    const formResult = byId('formResult');
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fullName = byId('fullName').value.trim();
+      const email = byId('email').value.trim();
+      const teamSize = byId('teamSize').value.trim();
+      const message = byId('message').value.trim();
+
+      if (!fullName) {
+        formValidation.textContent = 'Please enter your full name.';
+        formResult.textContent = 'Submission blocked';
+        return;
+      }
+
+      if (!email || !email.includes('@')) {
+        formValidation.textContent = 'Please enter a valid work email.';
+        formResult.textContent = 'Submission blocked';
+        return;
+      }
+
+      if (!teamSize) {
+        formValidation.textContent = 'Please select a team size.';
+        formResult.textContent = 'Submission blocked';
+        return;
+      }
+
+      if (message.length < 10) {
+        formValidation.textContent = 'Please provide a longer description of your use case.';
+        formResult.textContent = 'Submission blocked';
+        return;
+      }
+
+      formValidation.textContent = '';
+      formResult.textContent = `Submitted for ${fullName}`;
+      formResult.className = 'badge ok';
+      createToast(`Thanks, ${fullName}. Request submitted.`, 'success');
+    });
+
+    contactForm.addEventListener('reset', () => {
+      formValidation.textContent = '';
+      formResult.textContent = 'No submission yet';
+      formResult.className = 'badge warn';
+    });
+
+    // Newsletter
+    byId('newsletterSubmit').addEventListener('click', () => {
+      const email = byId('newsletterEmail').value.trim();
+      const target = byId('newsletterValidation');
+
+      if (!email || !email.includes('@')) {
+        target.textContent = 'Enter a valid email address.';
+        return;
+      }
+
+      target.textContent = 'Thanks for joining the newsletter.';
+      createToast('Newsletter signup complete.', 'success');
+    });
+
+    // Table filter
+    const tableFilter = byId('tableFilter');
+    const statusFilter = byId('statusFilter');
+    const rows = Array.from(byId('projectTableBody').querySelectorAll('tr'));
+
+    function applyTableFilters() {
+      const q = tableFilter.value.toLowerCase().trim();
+      const status = statusFilter.value;
+
+      rows.forEach((row) => {
+        const text = row.innerText.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+        const matchText = q === '' || text.includes(q);
+        const matchStatus = status === 'all' || status === rowStatus;
+        row.style.display = matchText && matchStatus ? '' : 'none';
+      });
+    }
+
+    tableFilter.addEventListener('input', applyTableFilters);
+    statusFilter.addEventListener('change', applyTableFilters);
+
+    // Modal
+    const modalBackdrop = byId('modalBackdrop');
+    function openModal() {
+      modalBackdrop.classList.add('open');
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+    }
+    function closeModal() {
+      modalBackdrop.classList.remove('open');
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+    }
+
+    byId('openModalBtn').addEventListener('click', openModal);
+    byId('closeModalBtn').addEventListener('click', closeModal);
+    byId('confirmModalBtn').addEventListener('click', () => {
+      closeModal();
+      createToast('Modal confirmed.', 'success');
+    });
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+
+    // Drawer
+    const drawer = byId('drawer');
+    function openDrawer() { drawer.classList.add('open'); }
+    function closeDrawer() { drawer.classList.remove('open'); }
+
+    byId('openDrawerBtn').addEventListener('click', openDrawer);
+    byId('closeDrawerBtn').addEventListener('click', closeDrawer);
+
+    // Toasts
+    const toastStack = byId('toastStack');
+    function createToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.setAttribute('data-testid', `toast-${type}`);
+      toast.textContent = message;
+      toastStack.appendChild(toast);
+      setTimeout(() => toast.remove(), 2800);
+    }
+
+    byId('showToastBtn').addEventListener('click', () => {
+      createToast('Smoke test completed successfully.', 'success');
+    });
+
+    byId('simulateWarnBtn').addEventListener('click', () => {
+      createToast('Warning: one project requires review.', 'warn');
+    });
+
+    byId('simulateErrorBtn').addEventListener('click', () => {
+      createToast('Error: simulated backend timeout.', 'error');
+    });
+
+    // Async simulation
+    const asyncStatus = byId('asyncStatus');
+    byId('simulateLoadBtn').addEventListener('click', async () => {
+      asyncStatus.textContent = 'Loading...';
+      asyncStatus.className = 'badge warn';
+
+      await new Promise((resolve) => setTimeout(resolve, 900));
+
+      asyncStatus.textContent = 'Loaded';
+      asyncStatus.className = 'badge ok';
+    });
+
+    // Demo actions
+    byId('launchDemoBtn').addEventListener('click', () => {
+      createToast('Demo launched.', 'success');
+      updateProgress(84);
+      progressRange.value = 84;
+    });
+  </script>
 </body>
 </html>
