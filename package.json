@@ -12,7 +12,7 @@
   "serve": "python3 -m http.server 8080 --directory site",
   "demo:record": "node --version && playwright --version && npx tsx scripts/demo-runner.ts https://slackdesk.org videos",
   "doctor": "bash scripts/doctor.sh",
-  "smoke": "npm run test:smoke"
+  "smoke": "playwright test tests/smoke.spec.ts --reporter=line"
 },
   "devDependencies": {
     "@playwright/test": "^1.58.2",
