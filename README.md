@@ -1,131 +1,154 @@
-# Deterministic UI Testbed
+# deterministic-ui-testbed
 
-**Flake-free, CI-safe browser smoke tests powered by Playwright + local AI.**
+AI-driven browser automation experiments using **OpenClaw + Playwright**.
 
-This project demonstrates how to turn UI automation into a **deterministic, reproducible system** that:
+This repository demonstrates how **LLM prompts can generate and execute deterministic UI tests**.
 
-- produces **consistent JSON test outputs**
-- survives **UI and environment drift**
-- enables **AI-assisted test authoring without breaking CI**
+The goal is simple:
 
----
-
-## Why this matters
-
-Traditional UI pipelines fail because they are:
-
-- ❌ timing-sensitive  
-- ❌ selector-fragile  
-- ❌ hard to debug in CI  
-
-This testbed shows a different model:
-
-✅ Deterministic execution  
-✅ Stable, diffable results  
-✅ High-signal failure diagnostics  
-✅ AI that accelerates authoring — not runtime risk  
+**Prompt → Browser Automation → Deterministic JSON QA Signal**
 
 ---
 
-## What this project demonstrates
+# 🚀 What This Project Demonstrates
 
-- **Playwright** for reliable browser automation  
-- **OpenClaw** as a tool-orchestrated workflow engine  
-- **Ollama** for local, tool-calling LLMs  
-- **CI-safe smoke testing** with a deterministic gate  
+Two core automation prompts:
 
-Result: the same test → the same structured output → every run.
+### Prompt A — Self-Driving Smoke Test
 
----
+Runs a Playwright smoke test and returns a **strict JSON contract** describing page health.
 
-## Example output
+Example output:
 
 ```json
 {
-  "url": "https://slackdesk.org",
-  "ok": true,
-  "http_status": 200,
-  "dom_ready_ms": 802,
-  "console_errors": 0,
-  "page_errors": 0
+"url":"https://slackdesk.org/index.html",
+"ok":true,
+"title":"SlackDesk | Open-Source AI Tools",
+"h1":"Welcome to SlackDesk",
+"http_status":200,
+"final_url":"https://slackdesk.org/index.html",
+"dom_ready_ms":350,
+"console_errors":0,
+"page_errors":0
 }
 ```
 
-This makes UI tests:
+---
 
-- loggable  
-- alertable  
-- trendable  
-- automation-friendly  
+### Prompt B — Generate Playwright Tests From a User Story
+
+Example prompt:
+
+> "As a visitor I can load the homepage and navigate to Playground."
+
+The agent automatically:
+
+1. Generates Playwright tests
+2. Executes them
+3. Produces artifacts (screenshots, traces, reports)
 
 ---
 
-## Key capabilities
+# 🧠 Why This Matters
 
-- Deterministic UI smoke testing
-- AI-generated Playwright tests (tool-driven, not free-form)
-- Reproducible local + CI execution
-- System Chromium fallback for unsupported distros
-- JSON contracts for automation pipelines
+AI agents can now:
+
+• generate browser automation
+• execute tests
+• collect deterministic signals
+• validate UI health automatically
+
+This opens the door to **AI-assisted QA systems**.
 
 ---
 
-## Architecture (high level)
+# 🏗 Architecture
 
 ```
-OpenClaw
-  → Ollama (intent → tool plan)
-      → Playwright test generation
-          → Playwright execution
-              → Deterministic smoke gate
-                  → Structured result
+Prompt
+   ↓
+OpenClaw Agent
+   ↓
+Playwright Browser Automation
+   ↓
+Deterministic JSON Result
+   ↓
+CI / QA Signal
 ```
 
 ---
 
-## Quickstart
-
-### Node
+# 📦 Install
 
 ```bash
 npm install
-npx playwright install chromium
-npm test
+npx playwright install
 ```
 
-### Python + system Chromium
+---
+
+# ▶ Run Tests
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-python scripts/pw_master_smoke.py https://example.com "$(command -v chromium)"
+npx playwright test
 ```
 
 ---
 
-## Repository layout
+# 🧪 Run Smoke Pipeline
 
-```
-agents/     → AI workflows (version-controlled)
-scripts/    → runtime glue
-tests/      → deterministic execution
-docs/       → architecture + demo
-.github/    → CI pipeline
+```bash
+./scripts/smoke.sh https://slackdesk.org/index.html
 ```
 
 ---
 
-## Use cases
+# 📂 Project Structure
 
-- CI smoke tests for production deploys
-- Flake-free health checks for critical user journeys
-- AI-assisted test authoring for QA teams
-- Deterministic UI monitoring
+```
+deterministic-ui-testbed
+│
+├── prompts
+│   ├── prompt-a-smoke-agent.md
+│   └── prompt-b-generate-tests.md
+│
+├── tests
+│   ├── smoke.spec.ts
+│   └── navigation.spec.ts
+│
+├── scripts
+│   ├── smoke.sh
+│   └── smoke-check.py
+│
+├── playwright.config.ts
+├── package.json
+└── README.md
+```
 
 ---
 
-## Status
+# 🧪 Tech Stack
 
-Actively evolving as a **reference architecture for reliable UI automation**.
+* Playwright
+* Node.js
+* OpenClaw Agents
+* Deterministic UI testing patterns
+
+---
+
+# 🔬 Experimentation Goals
+
+This repo explores:
+
+• AI-generated test automation
+• deterministic UI smoke testing
+• prompt-driven QA workflows
+
+---
+
+# 🧑‍💻 Author
+
+QA automation engineer exploring **AI-assisted testing systems**.
+
+Connect with me on LinkedIn if you're experimenting with similar ideas.
