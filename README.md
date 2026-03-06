@@ -1,154 +1,96 @@
-# deterministic-ui-testbed
+⭐ If you find this experiment interesting, please consider starring the repo.
+## 🧩 Test Fixtures (Local SlackDesk Pages)
 
-AI-driven browser automation experiments using **OpenClaw + Playwright**.
+This repository includes **local fixture pages** under `fixtures/slackdesk/` that mimic key elements of the SlackDesk website.
 
-This repository demonstrates how **LLM prompts can generate and execute deterministic UI tests**.
+The fixtures allow Playwright tests to run against a **deterministic local environment** rather than relying on the live site.
 
-The goal is simple:
+## 🧭 Architecture
 
-**Prompt → Browser Automation → Deterministic JSON QA Signal**
+This project demonstrates a prompt-driven browser automation workflow.
 
----
+![Architecture](docs/architecture.svg)
 
-# 🚀 What This Project Demonstrates
+### Why fixtures are used
 
-Two core automation prompts:
+Testing directly against a live site can introduce instability due to:
 
-### Prompt A — Self-Driving Smoke Test
+* network latency
+* CDN changes
+* deployment updates
+* third-party dependencies
 
-Runs a Playwright smoke test and returns a **strict JSON contract** describing page health.
+By running tests against **local HTML fixtures**, the test results become:
 
-Example output:
+* **deterministic**
+* **reproducible**
+* **fast**
+* **offline-capable**
 
-```json
-{
-"url":"https://slackdesk.org/index.html",
-"ok":true,
-"title":"SlackDesk | Open-Source AI Tools",
-"h1":"Welcome to SlackDesk",
-"http_status":200,
-"final_url":"https://slackdesk.org/index.html",
-"dom_ready_ms":350,
-"console_errors":0,
-"page_errors":0
-}
+This is especially useful when demonstrating **AI-generated test automation workflows**.
+
+### Fixture location
+
+```
+fixtures/
+└── slackdesk/
+    ├── index.html
+    ├── playground.html
+    ├── styles.css
+    └── assets/
 ```
 
----
+These pages contain simplified versions of SlackDesk UI components used by the tests:
 
-### Prompt B — Generate Playwright Tests From a User Story
+* page titles
+* `<h1>` headings
+* navigation links
+* buttons and interactive elements
 
-Example prompt:
+### How fixtures are served
 
-> "As a visitor I can load the homepage and navigate to Playground."
+Playwright automatically launches a lightweight local server using the configuration in `playwright.config.ts`:
 
-The agent automatically:
+```bash
+python3 -m http.server 4173 --directory fixtures/slackdesk
+```
 
-1. Generates Playwright tests
-2. Executes them
-3. Produces artifacts (screenshots, traces, reports)
+The tests then run against:
 
----
+```
+http://127.0.0.1:4173
+```
 
-# 🧠 Why This Matters
+### Example test flow
 
-AI agents can now:
+1. Start local fixture server
+2. Load `/index.html`
+3. Verify title and heading
+4. Navigate to `/playground.html`
+5. Validate UI elements
 
-• generate browser automation
-• execute tests
-• collect deterministic signals
-• validate UI health automatically
+### When to use the live site
 
-This opens the door to **AI-assisted QA systems**.
+The repository also supports **optional live-site smoke testing**:
 
----
+```
+https://slackdesk.org/index.html
+```
 
-# 🏗 Architecture
+Live tests are useful for validating production deployments, but fixture-based tests are preferred for **repeatable automation demonstrations**.
+
+### Design goal
+
+The fixtures are intentionally minimal and exist only to support the following workflow:
 
 ```
 Prompt
    ↓
-OpenClaw Agent
+AI Agent
    ↓
-Playwright Browser Automation
+Playwright Automation
    ↓
-Deterministic JSON Result
-   ↓
-CI / QA Signal
+Deterministic UI Signal
 ```
 
----
-
-# 📦 Install
-
-```bash
-npm install
-npx playwright install
-```
-
----
-
-# ▶ Run Tests
-
-```bash
-npx playwright test
-```
-
----
-
-# 🧪 Run Smoke Pipeline
-
-```bash
-./scripts/smoke.sh https://slackdesk.org/index.html
-```
-
----
-
-# 📂 Project Structure
-
-```
-deterministic-ui-testbed
-│
-├── prompts
-│   ├── prompt-a-smoke-agent.md
-│   └── prompt-b-generate-tests.md
-│
-├── tests
-│   ├── smoke.spec.ts
-│   └── navigation.spec.ts
-│
-├── scripts
-│   ├── smoke.sh
-│   └── smoke-check.py
-│
-├── playwright.config.ts
-├── package.json
-└── README.md
-```
-
----
-
-# 🧪 Tech Stack
-
-* Playwright
-* Node.js
-* OpenClaw Agents
-* Deterministic UI testing patterns
-
----
-
-# 🔬 Experimentation Goals
-
-This repo explores:
-
-• AI-generated test automation
-• deterministic UI smoke testing
-• prompt-driven QA workflows
-
----
-
-# 🧑‍💻 Author
-
-QA automation engineer exploring **AI-assisted testing systems**.
-
-Connect with me on LinkedIn if you're experimenting with similar ideas.
+This makes the project easier to understand, reproduce, and extend.

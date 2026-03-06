@@ -1,24 +1,16 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
+  testDir: './tests',
+  retries: 1,
   use: {
-    headless: true,
-    baseURL: 'http://127.0.0.1:5173'
+    baseURL: 'http://127.0.0.1:4173',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure'
   },
   webServer: {
-    command: 'python3 -m http.server 5173 --directory .',
-    port: 5173,
-    reuseExistingServer: false,
-  },
-  projects: [
-    {
-      name: 'chromium-system',
-      use: {
-        browserName: 'chromium',
-        launchOptions: {
-          executablePath: '/usr/bin/chromium', // adjust
-        },
-      },
-    },
-  ],
+    command: 'python3 -m http.server 4173 --directory fixtures/slackdesk',
+    port: 4173,
+    reuseExistingServer: true
+  }
 });
