@@ -6,10 +6,8 @@
 ![Fixtures](https://img.shields.io/badge/fixtures-deterministic-orange)
 ![Prompts](https://img.shields.io/badge/prompt--driven-testing-purple)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
-![UI Tests](https://github.com/slackdesk/deterministic-ui-testbed/actions/workflows/ui-tests.yml/badge.svg)
-![Smoke Tests](https://github.com/slackdesk/deterministic-ui-testbed/actions/workflows/smoke.yml/badge.svg)
 
-AI-driven browser automation experiments using **Playwright** and **prompt-driven testing workflows**.
+A deterministic UI testbed for prompt-driven Playwright automation experiments.
 
 This repository demonstrates how prompts can drive automation workflows that:
 
